@@ -1,3 +1,121 @@
+# TUGAS 9
+
+## Apakah bisa kita melakukan pengambilan data JSON tanpa membuat model terlebih dahulu? Jika iya, apakah hal tersebut lebih baik daripada membuat model sebelum melakukan pengambilan data JSON?
+
+Ya, di Flutter, kita **dapat** melakukan pengambilan data JSON tanpa membuat model terlebih dahulu. Ini biasanya dilakukan menggunakan tipe data dinamis (dynamic) atau `Map<String, dynamic>` untuk mewakili struktur data JSON. Pendekatan ini disebut sebagai *parsing dinamis* atau *parsing tanpa model*. Namun tentu ada keuntungan dan kekurangannya. 
+<br>Keuntungannya antara lain:
+- **Sederhana dan Cepat** dalam mengambil dan menggunakan data JSON tanpa harus membuat struktur kelas,
+- **Fleksibel** jika struktur JSON cenderung berubah atau tidak terlalu kompleks.
+
+Kekurangannya antara lain:
+- **Ketidakamanan Tipe**, kode menjadi lebih rentan terhadap kesalahan tipe saat berinteraksi dengan data.
+- **Kesulitan Pemahaman Kode** membuat kode menjadi kurang deskriptif.
+- **Kode yang Rapuh** jika struktur JSON berubah, tidak ada jaminan bahwa aplikasi akan tetap berfungsi seperti yang diharapkan.
+
+### Kesimpulan
+Pilihan antara parsing dinamis dan menggunakan model tergantung pada kompleksitas struktur data dan persyaratan aplikasi. Jika struktur data sederhana dan fleksibilitas lebih diutamakan daripada keamanan tipe, parsing dinamis dapat digunakan. Namun, untuk aplikasi yang lebih besar dan kompleks, membuat model biasanya lebih disarankan karena memberikan keamanan tipe, kemudahan pemeliharaan, dan deskripsi yang lebih baik tentang struktur data.
+
+## Jelaskan fungsi dari CookieRequest dan jelaskan mengapa instance CookieRequest perlu untuk dibagikan ke semua komponen di aplikasi Flutter.
+CookieRequest dalam konteks ini adalah bagian dari Flutter yang digunakan untuk mengelola informasi otentikasi, seperti token, yang diperlukan untuk berinteraksi dengan server Django. Dengan menggunakan Flutter Provider, instance CookieRequest dapat dibagikan ke seluruh aplikasi. Ini bermanfaat agar semua bagian aplikasi dapat dengan mudah mengakses dan menggunakan informasi otentikasi tanpa harus membuat ulang instance tersebut.
+
+## Jelaskan mekanisme pengambilan data dari JSON hingga dapat ditampilkan pada Flutter.
+1. Pembuatan model kostum, contohnya pada `models/product.dart`. Data json nantinya akan diconvert ke model objek tersebut agar lebih mudah diakses.
+2. Lakukan fetch terhadap data json dari sumber yang diinginkan, contoh pada program ini `localhost8000/json` dan parsing ke model kostum yang ada.
+3. Data dapat diakses sesuai dengan struktur model yang telah didefinisikan.
+
+## Jelaskan mekanisme autentikasi dari input data akun pada Flutter ke Django hingga selesainya proses autentikasi oleh Django dan tampilnya menu pada Flutter.
+
+1. Pengumpulan Data Akun di Flutter: Gunakan formulir atau metode input untuk mendapatkan data informasi akun dari pengguna.
+
+2. Pengembangan Fungsi Login, Registrasi, dan Logout dalam Aplikasi Otentikasi Baru untuk Flutter.
+
+3. Proses Autentikasi dengan Django, Kirimkan data akun ke backend Django melalui permintaan `request.login` (dengan menggunakan cookies dan fungsi login dari paket) dan lakukan proses autentikasi pada Django.
+
+4. Dari Django, akan dikirimkan data JSON yang diperlukan untuk validasi dan masukan pesan dalam Flutter yang menunjukkan keberhasilan atau kegagalan proses login.
+
+5. Dari hasil login, kita menerima respons JSON yang berisi status, pesan, dan nama pengguna dari login Django.
+
+6. Dengan menggunakan status, kita dapat membuat kondisi-kondisi yang diinginkan berdasarkan hasil status tersebut. Selain itu, kita dapat menampilkan pesan yang dihasilkan oleh fungsi login di `views.py` Django.
+
+7. Setelah berhasil login, kita dapat menampilkan `MyHomepage` sebagai tampilan utama menu. Untuk menyimpan informasi login, seperti cookies dan nama pengguna yang berhasil login, kita dapat menggunakan variabel statis dalam kelas `LoginPage`. Hal ini memungkinkan kita untuk mengakses informasi ini di berbagai bagian aplikasi.
+
+## Sebutkan seluruh widget yang kamu pakai pada tugas ini dan jelaskan fungsinya masing-masing.
+
+### Widget di `login.dart`
+1. `AppBar`digunakan untuk menampilkan judul aplikasi dan propertynya
+2. `Stack` memungkinkan penumpukan widget di atas satu sama lain.
+3. `Container` berfungsi sebagai wadah untuk menampung widget lain dalam Flutter.
+4. `SnackBar` memberikan umpan balik kepada pengguna dengan cepat dengan menampilkan login berhasil.
+5. `Text` digunakan untuk menampilkan teks dalam AppBar dan tampilan utama, beserta pengaturan properti seperti font, warna, dan gaya teks.
+6. `TextField` digunakan untuk menyediakan field input berupa username dan password.
+7. `ElevatedButton` digunakan untuk menampilkan tombol dengan efek visual untuk melakukan login.
+
+### Widget di `detail_product.dart`
+1. `Scaffold` menyediakan kerangka kerja dasar untuk suatu halaman, termasuk AppBar, body, dan fitur-fitur lainnya.
+
+2. `AppBar` menyediakan AppBar di bagian atas halaman dengan judul "Product Details".
+
+3. `Padding` digunakan untuk menambahkan jarak (padding) di sekitar widget-child di dalamnya. Pada contoh ini, Padding memberikan jarak 16.0 pada semua sisi child-widget-nya.
+
+4. `Column` mengatur child-widget-nya dalam kolom vertikal. Dalam hal ini, widget-column digunakan untuk menyusun teks-detail produk secara vertikal.
+
+5. `Text` digunakan untuk menampilkan teks. Dalam contoh ini, tiga buah Text widget digunakan untuk menampilkan nama produk, harga, dan deskripsi produk.
+
+6. `SizedBox` digunakan untuk menambahkan jarak kosong (height) di antara elemen-elemen dalam Column. Pada contoh ini, dua buah SizedBox digunakan untuk memberikan ruang kosong di antara teks-teks.
+
+### Widget di `list_product.dart`
+1. `Scaffold` menyediakan kerangka kerja dasar untuk suatu halaman, termasuk AppBar, drawer, dan body.
+
+2. `AppBar` menampilkan AppBar di bagian atas halaman dengan judul "Product".
+
+3. `LeftDrawer` widget yang diimpor dari file terpisah (left_drawer.dart), yang kemungkinan berisi implementasi drawer kiri untuk navigasi atau tindakan tambahan.
+
+4. `FutureBuilder` digunakan untuk menangani proses asynchronous dan membangun tampilan berdasarkan status Future (misalnya, data yang sedang dimuat, sukses, atau gagal).
+
+5. `CircularProgressIndicator` menampilkan indikator putar saat data sedang dimuat.
+
+6. `Column` mengatur child-widget-nya dalam kolom vertikal. Digunakan untuk menyusun teks informasi produk secara vertikal.
+
+7. `Text` menampilkan teks. Digunakan untuk menampilkan pesan "Tidak ada data produk." jika data tidak tersedia.
+
+8. `ListView.builder` membangun daftar produk menggunakan data yang diterima dari FutureBuilder.
+
+9. `InkWell` membuat area yang dapat ditekan (tappable) untuk setiap produk dalam daftar.
+
+10. `MouseRegion` menambahkan efek hover ke dalam area yang dapat ditekan.
+
+11. `Container` menyediakan wadah untuk mengatur margin, padding, dan properti lainnya untuk elemen-elemen dalam daftar produk.
+
+## _step-by-step_
+1. Membuat dan mengkonfigurasi app `authentication` pada project Django.
+
+2. Install library yang dibutuhkan dengan perintah `pip install django-cors-headers`.
+
+3. Buatlah fungsi untuk `login` dan `logout` pada `authentication/views.py` dan create_flutter pada `main/views.py`.
+
+4. Konfigurasi urls.py pada folder `authentication` dan `main`.
+
+5. Instal package yang disediakan,
+```
+flutter pub add provider
+flutter pub add pbp_django_auth
+```
+
+6. Modifikasi root widget untuk menyediakan instance CookieRequest ke semua child widgets menggunakan Provider.
+
+7. Buatlah file `login.dart` pada folder screens dan isi dengan kode untuk support login.
+
+8. Pada file main.dart, ubah `home: MyHomePage()` menjadi `home: LoginPage()`.
+
+9. Ubah perintah onPressed pada button untuk menghubungkan halaman `shoplist_form.dart` dengan CookieRequest
+
+10. Membuat model pada `products.dart` dengan menggunakan data struktur pada tugas django sebelumnya
+
+11. Membuat `list_product.dart` yang akan menampilkan data yang ada
+
+11. Membuat file `detail_product.dart` untuk menampilkan detail item ketika diklik.
+
+
 # TUGAS 8
 
 ## Navigator.push() VS Navigator.pushReplacement()
